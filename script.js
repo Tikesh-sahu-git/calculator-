@@ -78,19 +78,19 @@ class Calculator {
 
 // Background color changer
 const colors = [
-    '#f5f5f5', // Light gray
-    '#ffe6e6', // Light pink
-    '#e6f9ff', // Light blue
-    '#e6ffe6', // Light green
-    '#fff2e6', // Light orange
-    '#f0e6ff', // Light purple
-    '#e6ffff', // Light cyan
-    '#ffffe6'  // Light yellow
+    'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)',
+    'linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)',
+    'linear-gradient(135deg, #a1c4fd 0%, #c2e9fb 100%)',
+    'linear-gradient(135deg, #d4fc79 0%, #96e6a1 100%)',
+    'linear-gradient(135deg, #f6d365 0%, #fda085 100%)',
+    'linear-gradient(135deg, #fbc2eb 0%, #a6c1ee 100%)',
+    'linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%)',
+    'linear-gradient(135deg, #a6c0fe 0%, #f68084 100%)'
 ];
 
 function changeBackgroundColor() {
     const randomColor = colors[Math.floor(Math.random() * colors.length)];
-    document.body.style.backgroundColor = randomColor;
+    document.body.style.background = randomColor;
 }
 
 // Initialize calculator
@@ -108,6 +108,12 @@ numberButtons.forEach(button => {
     button.addEventListener('click', () => {
         calculator.appendNumber(button.innerText);
         calculator.updateDisplay();
+        
+        // Add click animation
+        button.classList.add('clicked');
+        setTimeout(() => {
+            button.classList.remove('clicked');
+        }, 200);
     });
 });
 
@@ -121,6 +127,12 @@ operationButtons.forEach(button => {
 equalsButton.addEventListener('click', () => {
     calculator.compute();
     calculator.updateDisplay();
+    
+    // Add celebration animation
+    document.querySelector('.calculator').classList.add('celebrate');
+    setTimeout(() => {
+        document.querySelector('.calculator').classList.remove('celebrate');
+    }, 1000);
 });
 
 allClearButton.addEventListener('click', () => {
@@ -136,3 +148,29 @@ deleteButton.addEventListener('click', () => {
 // Change background color every 30 seconds
 changeBackgroundColor(); // Initial color
 setInterval(changeBackgroundColor, 30000); // 30 seconds interval
+
+// Keyboard support
+document.addEventListener('keydown', (e) => {
+    if ((e.key >= 0 && e.key <= 9) || e.key === '.') {
+        calculator.appendNumber(e.key);
+        calculator.updateDisplay();
+    } else if (e.key === '+' || e.key === '-' || e.key === '*' || e.key === '/') {
+        let operation;
+        switch (e.key) {
+            case '*': operation = '×'; break;
+            case '/': operation = '÷'; break;
+            default: operation = e.key;
+        }
+        calculator.chooseOperation(operation);
+        calculator.updateDisplay();
+    } else if (e.key === 'Enter' || e.key === '=') {
+        calculator.compute();
+        calculator.updateDisplay();
+    } else if (e.key === 'Backspace') {
+        calculator.delete();
+        calculator.updateDisplay();
+    } else if (e.key === 'Escape') {
+        calculator.clear();
+        calculator.updateDisplay();
+    }
+});
