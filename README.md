@@ -19,8 +19,8 @@ A stylish and interactive web-based calculator that not only performs basic arit
 
 ## 🚀 Demo
 
-[Live Demo](https://your-live-demo-link.com)  
-*(Replace with your deployed site URL)*
+[Live Demo](https://tikesh-sahu-git.github.io/calculator-/)  
+*(https://tikesh-sahu-git.github.io/calculator-/)*
 
 ---
 
